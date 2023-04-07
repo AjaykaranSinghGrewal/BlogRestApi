@@ -18,7 +18,7 @@ public class SecurityConfig {
 	
 	private UserDetailsService userDetailsService;
 	
-	public SecurityConfig(UserDetailsService userDetailsService){	// TODO Auto-generated constructor stub
+	public SecurityConfig(UserDetailsService userDetailsService){
 		this.userDetailsService = userDetailsService;
 	}
 	
@@ -34,7 +34,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests((authorize) -> 
 		authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
 		.requestMatchers("/api/auth/**").permitAll()
-		.anyRequest().authenticated());
+		.anyRequest().authenticated()).httpBasic(Customizer.withDefaults());
 		
 		return http.build();
 	}

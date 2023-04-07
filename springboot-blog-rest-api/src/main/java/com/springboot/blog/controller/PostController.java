@@ -30,8 +30,8 @@ public class PostController {
 	}
 	
 	//create blog post & only ADMIN role user can create a POST
-	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping
 	public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
 		return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
 	}
@@ -60,16 +60,16 @@ public class PostController {
 	}
 	
 	//update post by id rest api
-	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("/{id}")
 	public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,@PathVariable(name="id") long id) {
 		PostDto postResponse = postService.updatePost(postDto, id);
 		return new ResponseEntity<PostDto>(postResponse, HttpStatus.OK);
 	}
 	
 	//delete post rest api
-	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deletePost(@PathVariable(name="id") long id) {
 		postService.deletePost(id);
 		return new ResponseEntity<>("Post Entity deleted successully.", HttpStatus.OK);
