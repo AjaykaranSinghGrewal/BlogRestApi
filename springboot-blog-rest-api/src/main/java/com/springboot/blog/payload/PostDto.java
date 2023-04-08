@@ -2,10 +2,14 @@ package com.springboot.blog.payload;
 
 import java.util.Set;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
-
 import lombok.Data;
 
+//describe better in swagger ui
+@Schema(
+		description = "PostDto Model Information"
+)
 @Data
 public class PostDto {
 	private long id;

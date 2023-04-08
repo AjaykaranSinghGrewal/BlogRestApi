@@ -1,9 +1,14 @@
 package com.springboot.blog.payload;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 import lombok.Data;
 
+//describe better in swagger ui
+@Schema(
+		description = "CommentDto Model Information"
+)
 @Data
 public class CommentDto {
 	private long id;

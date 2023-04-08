@@ -12,8 +12,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 @Configuration
 @EnableMethodSecurity
+//enable security in using swagger api
+@SecurityScheme(
+	    name = "basicAuth",
+	    type = SecuritySchemeType.HTTP,
+	    scheme = "basic"
+)
 public class SecurityConfig {
 	
 	private UserDetailsService userDetailsService;
@@ -31,9 +40,13 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		//enable get requests for all users
 		http.csrf().disable()
-		.authorizeHttpRequests((authorize) -> 
-		authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+		.authorizeHttpRequests((authorize) -> authorize
+		.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+		//permit authorization web links for everybody
 		.requestMatchers("/api/auth/**").permitAll()
+		//permit swagger web link for all
+		.requestMatchers("/swagger-ui/**").permitAll()
+		.requestMatchers("/v3/api-docs/**").permitAll()
 		.anyRequest().authenticated()).httpBasic(Customizer.withDefaults());
 		
 		return http.build();

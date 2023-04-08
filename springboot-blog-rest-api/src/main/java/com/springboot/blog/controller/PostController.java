@@ -19,8 +19,14 @@ import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/posts")
+@Tag(
+		name="CRUD REST APIs for Post Resource"
+)
 public class PostController {
 
 	private PostService postService;
@@ -29,6 +35,10 @@ public class PostController {
 		this.postService = postService;
 	}
 	
+	//add below annotation to not allow everyone to use admin access apis with ROLE_USER accounts
+	@SecurityRequirement(
+			name="basicAuth"
+	)
 	//create blog post & only ADMIN role user can create a POST
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
@@ -59,6 +69,10 @@ public class PostController {
 		return ResponseEntity.ok(postService.getPostById(id));
 	}
 	
+	//add below annotation to not allow everyone to use admin access apis with ROLE_USER accounts
+	@SecurityRequirement(
+			name="basicAuth"
+	)
 	//update post by id rest api
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
@@ -67,6 +81,10 @@ public class PostController {
 		return new ResponseEntity<PostDto>(postResponse, HttpStatus.OK);
 	}
 	
+	//add below annotation to not allow everyone to use admin access apis with ROLE_USER accounts
+	@SecurityRequirement(
+			name="basicAuth"
+	)
 	//delete post rest api
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
